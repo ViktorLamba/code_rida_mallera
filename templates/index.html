@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Код Рида-Маллера</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="intro">
+        <div>
+          <p class="eyebrow">RM(r, m) над GF(2)</p>
+          <h1>Код Рида-Маллера</h1>
+        </div>
+        <div class="stats">
+          <span>n = {{ params.n }}</span>
+          <span>k = {{ params.k }}</span>
+          <span>d = {{ params.d }}</span>
+          <span>t = {{ params.t }}</span>
+        </div>
+      </section>
+
+      <form method="post" class="panel">
+        <fieldset class="grid">
+          <label>
+            <span>r</span>
+            <input type="number" name="r" min="0" max="8" value="{{ r }}">
+          </label>
+          <label>
+            <span>m</span>
+            <input type="number" name="m" min="1" max="8" value="{{ m }}">
+          </label>
+          <label>
+            <span>Режим</span>
+            <select name="mode">
+              <option value="encode" {% if mode == "encode" %}selected{% endif %}>Кодировать и проверить</option>
+              <option value="decode" {% if mode == "decode" %}selected{% endif %}>Декодировать слово</option>
+            </select>
+          </label>
+        </fieldset>
+
+        <label class="wide">
+          <span>Сообщение, {{ params.k }} бит</span>
+          <textarea name="message" rows="3" spellcheck="false">{{ message }}</textarea>
+        </label>
+
+        <label class="wide">
+          <span>Позиции ошибок для проверки, через пробел или запятую</span>
+          <input type="text" name="error_positions" value="{{ error_positions }}" placeholder="например: 2, 5">
+        </label>
+
+        <label class="wide">
+          <span>Принятое слово для режима декодирования, {{ params.n }} бит</span>
+          <textarea name="received" rows="4" spellcheck="false">{{ received }}</textarea>
+        </label>
+
+        <button type="submit">Выполнить</button>
+      </form>
+
+      {% if error %}
+        <section class="alert">{{ error }}</section>
+      {% endif %}
+
+      {% if result %}
+        <section class="results">
+          {% for key, value in result.items() %}
+            <article>
+              <span>{{ {
+                "message": "Исходное сообщение",
+                "codeword": "Кодовое слово",
+                "transmitted": "Слово после ошибок",
+                "received": "Принятое слово",
+                "decoded": "Декодированное слово",
+                "decoded_message": "Восстановленное сообщение",
+                "distance": "Внесено ошибок",
+                "decoder_changes": "Исправлено позиций",
+                "positions": "Позиции ошибок"
+              }.get(key, key) }}</span>
+              <strong>{{ value if value != [] else "нет" }}</strong>
+            </article>
+          {% endfor %}
+        </section>
+      {% endif %}
+    </main>
+  </body>
+</html>
