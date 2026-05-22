@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    container_name: code_rida_mallera
+    restart: unless-stopped
+    ports:
+      - "8000:8000"

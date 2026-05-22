@@ -1,0 +1,13 @@
+.git
+.agents
+.codex
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+.env.*
+Dockerfile
+docker-compose*.yml

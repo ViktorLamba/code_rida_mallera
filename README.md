@@ -6,12 +6,26 @@
 
 ```bash
 python3 -m venv .venv
-source .venv/bikn/activate
+source .venv/bin/activate
 pip install -r requirements.txt
 flask --app app run
 ```
 
 После запуска откройте `http://127.0.0.1:5000`.
+
+## Запуск через Docker Compose
+
+```bash
+docker compose up -d --build
+```
+
+После запуска приложение будет доступно на `http://SERVER_IP:8000`.
+
+Остановить контейнер:
+
+```bash
+docker compose down
+```
 
 ## Возможности
 
