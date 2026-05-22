@@ -41,7 +41,15 @@
         </fieldset>
 
         <label class="wide">
-          <span>Сообщение, {{ params.k }} бит</span>
+          <span>Формат сообщения</span>
+          <select name="message_format">
+            <option value="bits" {% if message_format == "bits" %}selected{% endif %}>Биты</option>
+            <option value="text" {% if message_format == "text" %}selected{% endif %}>Текст</option>
+          </select>
+        </label>
+
+        <label class="wide">
+          <span>Сообщение, {{ params.k }} бит на блок</span>
           <textarea name="message" rows="3" spellcheck="false">{{ message }}</textarea>
         </label>
 
@@ -65,6 +73,7 @@
       {% if result %}
         <section class="results">
           {% for key, value in result.items() %}
+            {% if key != "decoded_text" or value %}
             <article>
               <span>{{ {
                 "message": "Исходное сообщение",
@@ -73,12 +82,15 @@
                 "received": "Принятое слово",
                 "decoded": "Декодированное слово",
                 "decoded_message": "Восстановленное сообщение",
+                "decoded_text": "Восстановленный текст",
+                "padding": "Добавлено нулей",
                 "distance": "Внесено ошибок",
                 "decoder_changes": "Исправлено позиций",
                 "positions": "Позиции ошибок"
               }.get(key, key) }}</span>
               <strong>{{ value if value != [] else "нет" }}</strong>
             </article>
+            {% endif %}
           {% endfor %}
         </section>
       {% endif %}
